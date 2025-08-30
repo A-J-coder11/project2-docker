@@ -58,6 +58,14 @@ services:
       - cart
       - user
 
-
-
-
+  frontend:
+    image: anandj9949/frontend:v1
+    container_name: frontend
+    ports:
+    - "80:80" 
+    depends_on:
+    - catalogue
+    - user
+    - payment
+    - shipping
+    - cart

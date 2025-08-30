@@ -1,39 +1,102 @@
-networks:
-  default:
-    driver: bridge
-    name: project2
-    # external: true # i created network already usign docker network create roboshop
-  services: 
-    mongodb:
-      image: anandj9949/mongodb:v1
-      container_name: mongodb
-    catalogue:
-      image: anandj9949/catalogue:v1
-      container_name: catalogue
-      depends_on:
+# networks:
+#   default:
+#     driver: bridge
+#     name: project2
+#     # external: true # i created network already usign docker network create roboshop
+#   services: 
+#     mongodb:
+#       image: anandj9949/mongodb:v1
+#       container_name: mongodb
+#     catalogue:
+#       image: anandj9949/catalogue:v1
+#       container_name: catalogue
+#       depends_on:
+#       - mongodb
+#     redis:
+#       image: redis:7.0
+#       container_name: redis
+#     user:
+#       image: anndj9949/user:v1
+#       container_name: user
+#       depends_on:
+#       - redis
+#       - mongodb
+#     cart:
+#       image: anandj9949/cart:v1
+#       container_name: cart
+#       depends_on:
+#       - catalogue
+#       - redis
+#     mysql:
+#       image: anandj9949/mysql:v1
+#       container_name: mysql
+#     shipping:
+#       image: anandj9949/shipping:v1
+#       container_name: shipping
+#       depends_on:
+#       - mysql
+#       - cart
+
+
+
+version: "3.8"
+
+services:
+  mongodb:
+    image: anandj9949/mongodb:v1
+    container_name: mongodb
+    networks:
+      - project2
+
+  catalogue:
+    image: anandj9949/catalogue:v1
+    container_name: catalogue
+    depends_on:
       - mongodb
-    redis:
-      image: redis:7.0
-      container_name: redis
-    user:
-      image: anndj9949/user:v1
-      container_name: user
-      depends_on:
+    networks:
+      - project2
+
+  redis:
+    image: redis:7.0
+    container_name: redis
+    networks:
+      - project2
+
+  user:
+    image: anndj9949/user:v1
+    container_name: user
+    depends_on:
       - redis
       - mongodb
-    cart:
-      image: anandj9949/cart:v1
-      container_name: cart
-      depends_on:
+    networks:
+      - project2
+
+  cart:
+    image: anandj9949/cart:v1
+    container_name: cart
+    depends_on:
       - catalogue
       - redis
-    mysql:
-      image: anandj9949/mysql:v1
-      container_name: mysql
-    shipping:
-      image: anandj9949/shipping:v1
-      container_name: shipping
-      depends_on:
+    networks:
+      - project2
+
+  mysql:
+    image: anandj9949/mysql:v1
+    container_name: mysql
+    networks:
+      - project2
+
+  shipping:
+    image: anandj9949/shipping:v1
+    container_name: shipping
+    depends_on:
       - mysql
       - cart
+    networks:
+      - project2
+
+networks:
+  project2:
+    driver: bridge
+
   

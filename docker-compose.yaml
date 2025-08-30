@@ -36,6 +36,13 @@ services:
     depends_on:
     - mysql
     - cart
+  rabbitmq:
+    image: rabbitmq:3
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: project2
+      RABBITMQ_DEFAULT_PASS: project123
+
 
 
 

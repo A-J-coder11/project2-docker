@@ -1,7 +1,7 @@
 networks:
   default:
     driver: bridge
-    name: proejct2
+    name: project2
     # external: true # i created network already usign docker network create roboshop
   services: 
     mongodb:

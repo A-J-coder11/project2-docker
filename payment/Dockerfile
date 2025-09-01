@@ -12,7 +12,8 @@ RUN addgroup -S project1 && adduser -S project1 -G project1
 WORKDIR /opt/server
 COPY --from=builder /opt/server /opt/server
 USER project1
-CMD ["uwsgi", "--ini", "payment.ini"]
+# CMD ["uwsgi", "--ini", "payment.ini"]
+CMD ["sleep", "1000"]
 
 
 

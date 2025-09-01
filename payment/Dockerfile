@@ -1,14 +1,18 @@
-FROM python:3.9 AS builder
-WORKDIR /opt/server
-COPY requirements.txt .
-COPY *.py .
-COPY payment.ini .
-RUN pip3 install -r requirements.txt
+# there is no need of the build for this
+# FROM python:3.9 AS builder
+# WORKDIR /opt/server
+# COPY requirements.txt .
+# COPY *.py .
+# COPY payment.ini .
+# RUN pip3 install -r requirements.txt
+
+
 
 
 FROM python:3.9.23-alpine3.22
 EXPOSE 8080
-RUN addgroup -S project1 && adduser -S project1 -G project1
+RUN addgroup -S project1 && adduser -S project1 -G project1 \
+    && chown -R project1:project1 /opt/server
 WORKDIR /opt/server
 COPY --from=builder /opt/server /opt/server
 RUN apk add python3-dev build-base linux-headers pcre-dev

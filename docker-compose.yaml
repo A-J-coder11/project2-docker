@@ -51,8 +51,8 @@ services:
       USER_HOST: user
       USER_PORT: 8080
       AMQP_HOST: rabbitmq
-      AMPQ_USER: project1
-      AMPQ_PASS: project123
+      AMQP_USER: project1
+      AMQP_PASS: project123
     depends_on:
       - rabbitmq
       - cart

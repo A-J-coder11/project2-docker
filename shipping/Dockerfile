@@ -1,19 +1,39 @@
-FROM maven
+FROM maven AS builder
 WORKDIR /opt/server
-
-# Copy Maven project
 COPY pom.xml .
 COPY src /opt/server/src
+RUN mvn clean package
 
-# Build the jar
-RUN mvn clean package 
-
-# Rename jar to a consistent name
-RUN mv /opt/server/target/shipping-1.0.jar /opt/server/shipping.jar
-
-# Environment variables
+FROM eclipse-temurin:17-jre-alpine
+EXPOSE 8080
+WORKDIR /opt/server
+RUN addgroup -S project1 && adduser -S project1 -G project1 \
 ENV CART_ENDPOINT="cart:8080" \
     DB_HOST="mysql"
+COPY --from=builder /opt/server/target/shipping-*.jar /opt/server/shipping.jar
+USER project1
+CMD [ "java", "-jar", "shipping.jar" ]
 
-# Run the app
-CMD ["java", "-jar", "shipping.jar"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+# FROM maven
+# WORKDIR /opt/server
+# COPY pom.xml .
+# COPY src /opt/server/src
+# RUN mvn clean package 
+# RUN mv /opt/server/target/shipping-1.0.jar /opt/server/shipping.jar
+# ENV CART_ENDPOINT="cart:8080" \
+#     DB_HOST="mysql"
+
+# CMD ["java", "-jar", "shipping.jar"]
